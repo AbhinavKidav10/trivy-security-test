@@ -1,0 +1,24 @@
+name: Trivy Security Scan
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  security_scan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Run Trivy vulnerability scanner
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: 'nginx:latest'  # Change this to your Docker image
+          format: 'table'
+          exit-code: 1
+          severity: 'CRITICAL,HIGH'
